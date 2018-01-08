@@ -721,15 +721,15 @@ order by tbl_case.case_id desc limit ".$offset.",".$limit."";
 				
 				if($group_id==1)
 				{
-				$case_view_url=base_url()."pollution/case_view";	
-				$case_attechment_url=base_url()."pollution/case_attechment";	
+				$case_view_url=base_url()."pollution/caseview";	
+				$case_attechment_url=base_url()."pollution/caseattechment";	
 				$case_edit_url=base_url()."pollution/casedisplay";	
 				$case_disposeoff_url=base_url()."pollution/casedisposeoff";	
 				$case_assign_url=base_url()."pollution/caseassign";	
 				}else if($group_id==3)
 				{
-				$case_view_url=base_url()."pollution/case_view";	
-				$case_attechment_url=base_url()."pollution/case_attechment";	
+				$case_view_url=base_url()."pollution/caseview";	
+				$case_attechment_url=base_url()."pollution/caseattechment";	
 				$case_edit_url=base_url()."pollution/casedisplay";	
 				}	
 				
@@ -739,8 +739,8 @@ order by tbl_case.case_id desc limit ".$offset.",".$limit."";
 
 				if($group_id==1 || $group_id==2)
 				{
-				 $case_view_url=base_url()."pollution/case_view";	
-				 $case_attechment_url=base_url()."pollution/case_attechment";	
+				 $case_view_url=base_url()."pollution/caseview";	
+				 $case_attechment_url=base_url()."pollution/caseattechment";	
 				 $case_disposeoff_url=base_url()."pollution/casedisposeoff";		
 					 
 				  $caseassign= $this->pollution_model->get_data("tbl_case_asign","case_asign_date_of_assign",array("case_asign_case_id"=>$case_id));	
@@ -759,8 +759,8 @@ order by tbl_case.case_id desc limit ".$offset.",".$limit."";
             {
 				if($group_id==1 || $group_id==2)
 				{
-					$case_view_url=base_url()."pollution/case_view";	
-				    $case_attechment_url=base_url()."pollution/case_attechment";	
+					$case_view_url=base_url()."pollution/caseview";	
+				    $case_attechment_url=base_url()."pollution/caseattechment";	
 				    $case_disposeoff_url=base_url()."pollution/casedisposeoff";
                     $casehearing= $this->pollution_model->get_data("tbl_hearing","hearing_next_date",array("hearing_case_id"=>$case_id));	
                     $casedate=$casehearing[0]["hearing_next_date"];
@@ -776,7 +776,7 @@ order by tbl_case.case_id desc limit ".$offset.",".$limit."";
 			}
             else if($current_status_name=="Dispose Off" || $current_status_name=="Decided")
             {
-				   $case_view_url=base_url()."pollution/case_view";	
+				   $case_view_url=base_url()."pollution/caseview";	
 				   $case_attechment_url=base_url()."pollution/case_attechment";
 			}
             			
@@ -1045,8 +1045,60 @@ where file_attachment_case_id=".$case_id."";
 		 $data["attechment_info"]=$attechment_info;
 		 $data["group_id"]=$group_id;
 		 $data["total_attechment"]=count($attechment_info);
+		 $data["add_attechment"]=count($attechment_info)<5?base_url()."pollution/add_attechment":'';
 		 $data["status"]=1;
 		 echo json_encode($data,JSON_UNESCAPED_SLASHES);die;
+	}
+	//====this function use for add attechement when attechment less then five for mobile users=====//
+	public function add_attechment_post()
+	{
+		 $applicant_email_or_name=(isset($_POST["applicant_email_or_name"])?$_POST["applicant_email_or_name"]:'');
+		 $device_token=(isset($_POST["device_token"])?$_POST["device_token"]:'');
+		 $group_id=(isset($_POST["group_id"])?$_POST["group_id"]:'');
+		 $case_id=(isset($_POST["case_id"])?$_POST["case_id"]:'');
+		 $attachment=(isset($_FILES['attachment']['name'])?$_FILES['attachment']['name']:'');
+		 $validation=array(
+		 array($applicant_email_or_name,"applicant_email_or_name","Send User Email or User Name"),
+		 array($device_token,"device_token","Device Token Not Found"),
+		 array($group_id,"group_id","Group Id Not Found"),
+		 array($case_id,"case_id","Case Id Not Found"),
+		 array($attachment,"attachment","Upload Pdf Less Then 5MB")
+         );
+		  $this->check_error_message($validation);
+		  $this->load->model('pollution_model');
+          $userid=$this->pollution_model->get_data("tb_users","id,group_id,name",'(email="'.$applicant_email_or_name.'" or 
+username="'.$applicant_email_or_name.'") 
+and device_token="'.$device_token.'"');
+
+		   if(empty($userid))
+		   {
+			 $data["message"]="Pass valid email id or username with token";
+			 $data["status"]=0;
+			 echo json_encode($data);die;
+		   }else if($userid[0]["group_id"]!=3)
+		   {
+			  $data["message"]="No authority for disposeoff";
+			  $data["status"]=0;
+			  echo json_encode($data);die; 
+		   }
+		  
+		$file_attachment["file_attachment_case_id"]=$case_id;
+		$file_attachment["file_attachment_user_id"]=$userid[0]['id'];
+		$total_files=$this->pollution_model->get_data('tbl_file_attachment','count(*) as total',array('file_attachment_case_id'=>$case_id));
+		$total=$total_files[0]["total"];
+		if($total>=5)
+		{
+			  $data["message"]="File upload limit has been exceeded for this case.";
+			  $data["status"]=0;
+			  echo json_encode($data);die;
+		}
+		$file_id=$this->pollution_model->insertdata('tbl_file_attachment',$file_attachment); 
+        $file_path=$this->upload_pdf_file_for_mobile($file_id,$userid[0]['id'],'uploads/appealpdf/');
+      	$this->pollution_model->updatedata('tbl_file_attachment',array("file_attachment_id"=>$file_id),array('file_attachment_file_path'=>$file_path));	
+		$attachment_data["message"]="File Has Been Uploaded";
+	    $attachment_data["status"]=1;
+		$attachment_data["group_id"]=$userid[0]["group_id"];
+	    echo json_encode($attachment_data);die;
 	}
 //======this function display case subject and officer name for dispose off page====//
 	public function casedisposeoff_get()
@@ -2437,7 +2489,67 @@ and device_token="'.$device_token.'"');
 		   $data["status"]=1;
 		   echo json_encode($data);die;
 	}
-	//==================================================//
+	//=====This function use to update email for mobile usres=======//
+	public function update_email_post()
+	{
+		 $applicant_email_or_name=(isset($_POST["applicant_email_or_name"])?$_POST["applicant_email_or_name"]:'');
+		 $device_token=(isset($_POST["device_token"])?$_POST["device_token"]:'');
+		 $group_id=(isset($_POST["group_id"])?$_POST["group_id"]:'');
+		 $update_email=(isset($_POST["update_email"])?$_POST["update_email"]:'');
+		 $validation=array(
+		   array($applicant_email_or_name,"applicant_email_or_name","Send User Email or User Name"),
+		   array($device_token,"device_token","Device Token Not Found"),
+		   array($group_id,"group_id","Group Id Not Found"),
+		   array($update_email,"update_email","Enter Email")
+		               );
+		  $this->check_error_message($validation);
+		  $this->load->model('pollution_model');
+		   $userid=$this->pollution_model->get_data("tb_users","id,group_id,name,username,password,name,email",'(email="'.$applicant_email_or_name.'" or 
+username="'.$applicant_email_or_name.'") 
+and device_token="'.$device_token.'"');
+
+		   if(empty($userid))
+		   {
+			 $data["message"]="Pass valid email id or username with token";
+			 $data["status"]=0;
+			 echo json_encode($data);die;
+		   }
+		   else if (!filter_var($update_email,FILTER_VALIDATE_EMAIL))
+		   {
+			    $data["message"]="Enter Valid Email";
+			    $data["status"]=0;
+			    echo json_encode($data);die;
+		   }   
+            
+		  $user=$this->pollution_model->get_data('tb_users','count(*) as total',array('email'=>$update_email));
+          $total=$user[0]['total'];
+		  if($total)
+		  {
+			   $data["message"]="Email Already Exist";
+			   $data["status"]=0;
+			   echo json_encode($data);die;
+		  }else
+          {
+			    $token = md5(uniqid(rand(),true));
+				$this->pollution_model->updatedata('tb_users',array('id'=>$userid[0]["id"]),
+				array('email'=>$update_email,'token'=>$token,'active'=>0));
+				$message='Dear <b>'.strtoupper($userid[0]["name"]).',</b><br><br>
+Your Email has been Update of online application of appeals/complaint<br/>
+against  "Haryana State Pollution Control Board" to the appellate authority.<br/>
+Please click on the following link to activate your account.<br/>
+<b>Link:</b>'.base_url()."registration/active_account?email_id=".$userid[0]['email']."&token=".$token.'<br/><br/>
+Futher,You can access the account by following credential.<br/><br/>
+<b>Url:</b>'.base_url().'user/login<br>
+<b>User Name: </b>'.$userid[0]["username"].'<br>
+<b>Email Id: </b>'.$update_email.'<br>
+<b>Password: </b>'.$this->encriptar('decrypt', $userid[0]['password']).'';
+$mail=$this->sentmail($update_email, 'HSPCB', 'Forget Password', $message);
+             $data["message"]="Email has been Update.Please check your email for active your account"; 
+			 $data["status"]=1;
+			 echo json_encode($data);die;
+		}			  
+	}
+	//=======********========//
 }	
 
 ?>

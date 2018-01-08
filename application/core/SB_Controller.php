@@ -60,7 +60,6 @@ $rules = array(array('field' => 'update_email', 'label' => 'email', 'rules' => '
 				$update_email=$_POST["update_email"];
 				$token = md5(uniqid(rand(),true));
 				$user_data=$this->pollution_model->get_data('tb_users','name,username,email,password',array('id'=>$user_main_id));
-				//print_R($user_data);die;
 				$this->pollution_model->updatedata('tb_users',array('id'=>$user_main_id),
 				array('email'=>$update_email,'token'=>$token,'active'=>0));
 				$message='Dear <b>'.strtoupper($user_data[0]["name"]).',</b><br><br>
@@ -71,9 +70,9 @@ Please click on the following link to activate your account.<br/>
 Futher,You can access the account by following credential.<br/><br/>
 <b>Url:</b>'.base_url().'user/login<br>
 <b>User Name: </b>'.$user_data[0]["username"].'<br>
-<b>Email Id: </b>'.$user_data[0]["email"].'<br>
+<b>Email Id: </b>'.$update_email.'<br>
 <b>Password: </b>'.$this->encriptar('decrypt', $user_data[0]['password']).'';
-$mail=$this->sentmail($arraySic['email'], 'HSPCB', 'User Registration', $message);
+$mail=$this->sentmail($update_email, 'HSPCB', 'Forget Password', $message);
               $this->session->set_flashdata('message', SiteHelpers::alert('success', 'Email has been Update.Please check your email for active your account.'));
 			}
 			else
