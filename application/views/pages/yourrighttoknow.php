@@ -1,0 +1,1 @@
+<div class="title-bar blue-bar">YOU RIGHT TO KNOW</div>

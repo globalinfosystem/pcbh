@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+
+	<title>MooTools DatePicker Example</title>
+
+<!--
+
+DatePicker Class for MooTools v1.11
+
+	@author Rick Hopkins
+	@modified by Micah Nolte and Martin Vašina
+	@version 0.3.2
+	@classDescription A date picker object. Created with the help of MooTools v1.11
+	MIT-style License.
+
+Dependencies:
+
+	Core
+
+	Class
+	Class.Extras
+
+	Array
+	String
+	Function
+	Number
+	Element
+
+	Element.Event
+	Element.Filters
+	Element.Selectors
+
+	Window.DomReady
+
+	Json
+
+-->
+
+	<script type="text/javascript" src="mootools.v1.11.js"></script>
+	<script type="text/javascript" src="DatePicker.js"></script>
+	<link href="DatePicker.css" type="text/css" rel='stylesheet' />
+
+<script type="text/javascript">
+window.addEvent('domready', function()
+{
+	$$('input.DatePicker').each(function(el)
+	{
+		new DatePicker(el);
+	});
+});
+
+</script>
+
+
+
+
+</head>
+
+<body>
+
+<div class="yep">
+
+	<p>
+		<label for="birthday">default calendar</label>
+		<input id="birthday" name="birthday" type="text" class="DatePicker" tabindex="1" value="10/24/2016" />
+	</p>
+
+	<p>
+		<!--<label for="new_day">calendar with all options</label>-->
+		<!--<input id="new_day" name="new_day" type="text" class="DatePicker" alt="{
+			dayChars:3,
+			dayNames:['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+			daysInMonth:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+			format:'yyyy-mm-dd',
+			monthNames:['Januar', 'Februar', 'M&auml;rz', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+			startDay:1,
+			yearOrder:'desc',
+			yearRange:90,
+			yearStart:2007
+		}" tabindex="1" value="1980-04-25" />-->
+	</p>
+
+	
+
+
+</div>
+
+
+</body>
+</html>

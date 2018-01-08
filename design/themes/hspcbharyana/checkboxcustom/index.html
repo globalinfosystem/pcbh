@@ -1,0 +1,22 @@
+<link href="skins/allf700.css?v=1.0.1" rel="stylesheet">
+<script>window.jQuery || document.write('<script src="demo/js/jquery.js">\x3C/script>');</script>
+<script src="icheckf700.js?v=1.0.1"></script>
+<input tabindex="17" type="checkbox" id="line-checkbox-1" >
+<label for="line-checkbox-1">Checkbox 1</label>
+<script>
+$(document).ready(function(){
+  $('input[type="checkbox"]').each(function(){
+	var self = $(this),
+	  label = self.next(),
+	  label_text = label.text();
+
+	label.remove();
+	self.iCheck({
+	  checkboxClass: 'icheckbox_line-blue',
+	  radioClass: 'iradio_line-blue',
+	  insert: '<div class="icheck_line-icon"></div>' + label_text
+	});
+  });
+});
+</script>
+        

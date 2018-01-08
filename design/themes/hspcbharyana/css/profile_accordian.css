@@ -1,0 +1,263 @@
+
+#body-cont{
+	width:995px;
+	margin:0 auto;
+	overflow:hidden;
+}
+
+#cantainer {
+	width:995px;
+	height: auto;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+}
+	
+.left-cont2{
+	width:595px;
+	float:left;
+	height: auto;
+	margin-top: 5px;
+	margin-right: 2px;
+	margin-bottom: 5px;
+	margin-left: 2px;
+}	
+
+.left-cont2 h3{
+	text-decoration:blink;
+	font-weight:bold;
+	font-size:17px;
+	text-align:center;
+	color: #ac2206;
+}
+
+.accordion_list {	
+	width: 769px;
+	height:auto;
+}
+
+/* table formating */
+#tables11
+{
+	font-family:Verdana, Geneva, sans-serif;
+	width:100%;
+	border-collapse:collapse;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #333;
+	text-decoration: none;
+}
+#tables11 h2
+{
+	font-family:Verdana, Geneva, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFF;
+	text-decoration: none;	
+}
+#tables11 td, #tables11 th 
+{
+	font-size:12px;
+	padding:3px 7px 2px 7px;
+	border-top-width: 0px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #FFF;
+	border-right-color: #FFF;
+	border-bottom-color: #FFF;
+	border-left-color: #FFF;
+}
+#tables11 th 
+{
+	font-size:12px;
+	/*text-align:center;*/
+	padding-top:5px;
+	padding-bottom:4px;
+	background-color:#036;
+	color:#ffffff;
+}
+
+#tables11 tr:nth-child(even) td
+{
+    color:#000000;
+    background-color:#DFEFFF;
+}
+
+#tables11 tr:nth-child(odd) td
+{
+    color:#000000;
+    background-color:#E8E8E8;
+}
+
+#tables11 tr.alt td 
+{
+	color:#000000;
+	background-color:#DFEFFF;
+	height:30px;
+}
+
+#tables11 tr.alt2 td 
+{
+	color:#000000;
+	background-color:#E8E8E8;
+	height:30px;
+}
+
+
+#tables11 ol li
+{
+	list-style-position: outside;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #333;
+	text-decoration: none;
+}
+
+#tables11 ul li
+{
+	list-style-position: outside;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #333;
+	text-decoration: none;	
+}
+
+#tables11 a
+{
+	
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: 20px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #00C;
+	text-decoration: none;
+	
+}
+
+#tables11 a:hover
+{
+	
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: 20px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #00C;
+	text-decoration: underline;
+}
+
+
+/*end table formating */
+
+
+.accordion_head {
+	padding: 0px;
+	cursor: pointer;
+	margin-top: 0px;
+	margin-right: 1px;
+	margin-bottom: 0px;
+	margin-left: 1px;
+}
+.accordion_body {
+	display:none;
+}
+.accordion_body a{
+  display:block;
+  color:#006699;
+  background-color:#EFEFEF;
+  padding-left:10px;
+  font-weight:bold;
+  text-decoration:none;
+}
+.accordion_body a:hover{
+  color: #000000;
+  text-decoration:underline;
+}
+
+/*judges profile body accrodion*/
+
+.prf_body {
+	height: auto;/*important or else divs get jumbled*/
+	overflow: hidden;
+	position: relative;	 /*important or else divs get jumbled*/	
+}
+
+.prf_body p{
+	padding: 10px;
+	text-align: justify;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #333;
+	text-decoration: none;		
+}
+
+.prf_body img{
+	float: left;
+	border: 1px solid #CCC;
+	padding: 5px;
+	margin: 5px;
+}
+
+.prf_body_fj{
+	float: left;
+	width: 140px;
+	margin-left: 200px;	
+	margin-left: 250px;	
+	
+		
+}
+
+.fj {
+	float: left;
+	height: auto;
+	width: 767px;
+}
+
+.fj img{
+	float: left;
+	height: auto;
+	width: 138px;
+	margin-left: 220px;	
+}
+
+.fj_title{
+	text-align: center;
+	margin-top: 5px;
+}
+
+
+
+/*judges profile body accrodion ends here*/

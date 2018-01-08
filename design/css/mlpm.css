@@ -1,0 +1,16 @@
+#pushobj {
+	position: absolute;
+	display:none;
+}
+
+#menu_multilevelpushmenu .fa-angle-left{
+    display:none;
+}
+
+.h2left{left : 0px !important;
+background:#323232;
+margin:0;
+padding:5px 10px 5px 20px !important;
+
+}
+
